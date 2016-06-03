@@ -10,17 +10,18 @@ extern int myClock;
 class STA 
 {
     friend void updateStaState ( STA&, int, int, int, int );
+    friend void generateArrival( std::vector<STA>& );
     private:
         int ID;
         double localLambda = 0; // in-class constructor
         double Rate = 1;
         int ULQueue = 0;        // indicate whether to contend
+        int lastTime = 0;
         std::vector<int> arrivalTime;
-        int totalSentPkt = 0;   
-        int lastArrival = 0; // used as start time to generate arrival packets.
-        // indicator
         bool RRSucIndicator = false; // in-class constructor
         bool moreBit = false;
+        int totalGeneratePkt = 0;
+        int totalSentPkt = 0;   
         int timeTX = 0, timeRX = 0, timeIdle = 0, timeDoze = 0;
     public:
         //* constructor *// 
@@ -35,7 +36,6 @@ class STA
         double getLocalLambda() { return localLambda;}
         double getRate() { return Rate; }
         void getArrivalTime();
-        int getLastArrival(){ return lastArrival; }
         int getULQueue() { return ULQueue; }
         bool RRSucIndicate() { return RRSucIndicator; }
         bool getMoreBit() { return moreBit; }
@@ -51,8 +51,7 @@ class STA
         //* other operations *//
         void popULQueue() { ULQueue--;}
         void generateArrival(); // as a part of sys update 
-        void displayArrivalTime();
-        void updateQueue();
+        //void displayArrivalTime();
         void validateArrival();
         void displayStaState();
 };

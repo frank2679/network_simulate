@@ -6,12 +6,12 @@ using namespace std;
 
 /* system parameters, global variables */
 int myClock; // system clock
-const double globalLambda = 0.00001; // pkts/us
+const double globalLambda = 0.001; // pkts/us
 const int TFPeriod = 10000; // 10ms
-const int numSta = 5;
+const int numSta = 50;
 const int contendWindow = 32;
-const int endTime = 10000000; // 1000000us = 1s 
-const int timeTFR = 50; // 50us
+const int endTime = 200000; // 1000000us = 1s 
+const int timeTFR = 5; // 50us
 const int timeTF = 50;
 const int timeContending = 0; // didn't consider it originally
 const int timeRR = 50;
@@ -34,28 +34,32 @@ int main()
     /* build nodes */
     vector<STA> stations(numSta);
     STA ap(0);
-    stations.push_back(ap); // last one is AP. 
 
     /* test generate() */
     /*
-    vector<STA>::iterator it = stations.begin();
     myClock = 1000000;
     it = stations.begin();
     it->generateArrival();
-    displaySystemState(); // passing with reference
+    displaySystemState( stations ); // passing with reference
     stations[0].validateArrival();
-    stations[0].getArrivalTime();
-    cout << "last arrival time: " << stations[0].getLastArrival() << endl;
     */
 
+    vector<STA>::iterator it = stations.begin();
     struct Event nextEvent;
     initialize( nextEvent, stations );
-    displayNextEvent( nextEvent ); 
     /* body */
     while ( myClock < endTime )
     {
         myClock = nextEvent.eventTime;
-        //cout << "myclock : " << myClock << endl;
+        cout << "myclock : " << myClock << endl;
+        //* generate traffic *//
+        generateArrival( stations );
+        // display the queue of each stations
+        for ( it = stations.begin(); it != stations.end(); it++ )
+        {
+            cout << "STA " << it->getID() << 
+            " UL queue size: " <<  it->getULQueue() << endl;
+        }
         switch ( nextEvent.eventID )
         {
             case 1: 
@@ -74,6 +78,7 @@ int main()
                 triggerAck( nextEvent, stations );
                 break;
             default: 
+                cout << "!!!!!!!!!! Error operations. !!!!!!!!!!! " << endl; 
                 break;
         }
     }
