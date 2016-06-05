@@ -18,6 +18,7 @@ class STA
         int ULQueue = 0;        // indicate whether to contend
         int lastTime = 0;
         std::vector<int> arrivalTime;
+        bool contendSucIndicator = false; // in-class constructor
         bool RRSucIndicator = false; // in-class constructor
         bool moreBit = false;
         int totalGeneratePkt = 0;
@@ -37,19 +38,21 @@ class STA
         double getRate() { return Rate; }
         void getArrivalTime();
         int getULQueue() { return ULQueue; }
+        bool contendSucIndicate() { return contendSucIndicator; }
         bool RRSucIndicate() { return RRSucIndicator; }
         bool getMoreBit() { return moreBit; }
         int getTotalSentPkt() { return totalSentPkt; }
 
         //* setting *//
         void setID(int n){ ID = n;}
-        void setLocalLambda(double lambda){localLambda = lambda;}
+        void setLocalLambda(double lambda) {localLambda = lambda;}
+        void setContendSucIndicate(bool x) { contendSucIndicator = x; }
         void setRRSucIndicate(bool x) { RRSucIndicator = x; }
         void setRate(double x) { Rate = x; }
         void setMoreBit(bool x) { moreBit = x; }
 
         //* other operations *//
-        void popULQueue() { ULQueue--;}
+        void popULQueue() { --ULQueue;}
         void generateArrival(); // as a part of sys update 
         //void displayArrivalTime();
         void validateArrival();
