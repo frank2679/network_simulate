@@ -13,6 +13,14 @@ void updateStaState( STA &sta, int TX, int RX, int Idle, int Doze )
     sta.timeDoze += Doze;
 }
 
+void updateStaStatePS( STA &sta, int TX, int RX, int Idle, int Doze )
+{
+    sta.timePSTX += TX;
+    sta.timePSRX += RX;
+    sta.timePSIdle += Idle;
+    sta.timePSDoze += Doze;
+}
+
 void generateArrival( vector<STA> &stations )
 {
     vector<STA>::iterator it = stations.begin();
@@ -38,6 +46,7 @@ void generateArrival( vector<STA> &stations )
             tempDuration += int(interArrivalTime(rng));
         }
         // display arrival
+        /*
         if (tempPkt)
         {
             cout << "New " << tempPkt << " packets generated: " ;
@@ -50,6 +59,7 @@ void generateArrival( vector<STA> &stations )
         { 
             cout << "No packets generatd. " << endl;
         }
+        */
         it->lastTime = myClock;
     }
 }
@@ -68,11 +78,50 @@ void STA::getArrivalTime()
         std::cout << *it << '\n';
 }
 
-
 void STA::displayStaState() 
 {
-    std::cout << "STA " << ID << " UL queue:" 
-        << ULQueue << std::endl; 
-    std::cout << "STA " << ID << " more bit:"
-        << int(moreBit);
+    cout << "Total sent Pkts: " << setw(8) << this->totalSentPkt << endl;
+    cout << "            " << setw(8) << "non-PS" << setw(8) << "PS" << endl;
+    cout << "TX time:    " << setw(8) << timeTX << ", "
+        << setw(8) << timePSTX << endl;
+    cout << "RX time:    " << setw(8) << timeRX << ", " 
+        << setw(8) << timePSRX << endl;
+    cout << "idle time:  " << setw(8) << timeIdle << ", " 
+        << setw(8) << timePSIdle << endl;
+    cout << "doze time:  " << setw(8) << timeDoze << ", "
+        << setw(8) << timePSDoze << endl;
+    cout << "total time: " << setw(8) << timeTX + timeRX + timeIdle + timeDoze 
+        << ", " << setw(8) << timePSTX + timePSRX + timePSIdle + timePSDoze << endl;
+}
+
+void displayULQueue( vector<STA> &stations )
+{
+    vector<STA>::iterator it = stations.begin(); 
+    cout << "stations' UL queue size: " ; 
+    for (; it != stations.end(); it++)
+        cout << it->ULQueue << ' ' ;
+    cout << endl;
+}
+
+void displayRRSucIndicate( vector<STA> &stations)
+{
+    vector<STA>::iterator it = stations.begin(); 
+    //++ test RR ++//
+    cout << "suc RR STAs(ID): " ;
+    for ( it = stations.begin(); it != stations.end(); it++ )
+        if ( it->RRSucIndicate() )
+        {
+            cout << it->getID() << ' ';
+        }
+    cout << endl;
+}
+
+void displayMoreBit( vector<STA> &stations)
+{
+    vector<STA>::iterator it = stations.begin();
+    cout << "Morebit set STAs(ID): ";
+    for ( ; it != stations.end(); it++ )
+        if ( it->moreBit )
+            cout << it->getID() << ' ' ;
+    cout << endl;
 }

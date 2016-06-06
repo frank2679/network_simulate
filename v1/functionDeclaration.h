@@ -14,16 +14,21 @@ extern int const timePkt; // given unit data rate
 extern int const timeACK;
 extern int const SIFS;
 extern int const nch;
+extern int const timeMaxUL;
+extern bool tooManyUL;
 
 /* 5 operations */
-void apSendTriggerRandom( struct Event &, std::vector<STA> & );
-void RR( struct Event &, std::vector<STA> &);
-void triggerAllocation( struct Event &, std::vector<STA> &);
-void ULTransmit( struct Event &, std::vector<STA> &);
-void triggerAck( struct Event &, std::vector<STA> &);
+struct Event apSendTriggerRandom( struct Event &, std::vector<STA> & );
+struct Event RR( struct Event &, std::vector<STA> &);
+struct Event triggerAllocation( struct Event &, std::vector<STA> &);
+struct Event ULTransmit( struct Event &, std::vector<STA> &);
+struct Event triggerAck( struct Event &, std::vector<STA> &);
 /* others */
 void displaySystemState( std::vector<STA> &);
 void initialize( struct Event &, std::vector<STA> &); 
-void updateNextEvent( struct Event &, int , int, int);
-void displayNextEvent( const struct Event &);
+void updateEvent( struct Event &, int , int, int);
+void updateEvent( struct Event &, struct Event & );
+void displayNextEvent( const struct Event & );
+void displayLastEvent( const struct Event & );
 void estimate( std::vector<STA> & );
+void calculateWorkTime( struct Event &, struct Event &, std::vector<STA> & );

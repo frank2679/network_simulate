@@ -10,20 +10,28 @@ extern int myClock;
 class STA 
 {
     friend void updateStaState ( STA&, int, int, int, int );
+    friend void updateStaStatePS ( STA&, int, int, int, int );
     friend void generateArrival( std::vector<STA>& );
+    friend void displayULQueue( std::vector<STA> &stations ); 
+    friend void displayRRSucIndicate( std::vector<STA> &stations); 
+    friend void displayMoreBit( std::vector<STA> &stations); 
+
     private:
         int ID;
         double localLambda = 0; // in-class constructor
-        double Rate = 1;
+        double Rate = 1.0;
         int ULQueue = 0;        // indicate whether to contend
         int lastTime = 0;
         std::vector<int> arrivalTime;
-        bool contendSucIndicator = false; // in-class constructor
-        bool RRSucIndicator = false; // in-class constructor
+        bool contendThisTFP = false;// for compute working time
+        bool RRSuc = false;// for compute working time
+        bool contendSucIndicator = false; // for running the system 
+        bool RRSucIndicator = false;  
         bool moreBit = false;
         int totalGeneratePkt = 0;
         int totalSentPkt = 0;   
         int timeTX = 0, timeRX = 0, timeIdle = 0, timeDoze = 0;
+        int timePSTX = 0, timePSRX = 0, timePSIdle = 0, timePSDoze = 0;
     public:
         //* constructor *// 
         STA(){} // constructor
@@ -38,6 +46,8 @@ class STA
         double getRate() { return Rate; }
         void getArrivalTime();
         int getULQueue() { return ULQueue; }
+        bool getContendThisTFP() { return contendThisTFP; }
+        bool getRRSuc() { return RRSuc; }
         bool contendSucIndicate() { return contendSucIndicator; }
         bool RRSucIndicate() { return RRSucIndicator; }
         bool getMoreBit() { return moreBit; }
@@ -46,6 +56,8 @@ class STA
         //* setting *//
         void setID(int n){ ID = n;}
         void setLocalLambda(double lambda) {localLambda = lambda;}
+        void setContendThisTFP(bool x) { contendThisTFP = x; } 
+        void setRRSuc(bool x) { RRSuc = x; } 
         void setContendSucIndicate(bool x) { contendSucIndicator = x; }
         void setRRSucIndicate(bool x) { RRSucIndicator = x; }
         void setRate(double x) { Rate = x; }
