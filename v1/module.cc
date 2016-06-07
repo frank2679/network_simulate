@@ -47,29 +47,29 @@ struct Event apSendTriggerRandom( struct Event &nextEvent, vector<STA> &stations
     if ( !flag ) // with UL
     {
         // for test, display the RR STAs
-        /*
         cout << "RR Staions ID (both suc or not): ";
         for ( it = stations.begin(); it != stations.end(); it++ )
             if ( it->contendSucIndicate() )
                 cout << it->getID() << ' ' ;
         cout << endl;
-        */
         newEventID = 2;
         newEventTime = myClock + nextEvent.eventDuration; // the endtime of this event
         newEventDuration = timeRR + timeContending + SIFS;
     }
     else // no sta UL
     {
-        //cout << "No stations will UL. " << endl;
+        cout << "No stations will UL. " << endl;
         newEventID = 1;
         int lastTFRtime = ((myClock%TFPeriod)?(myClock/TFPeriod):(myClock/TFPeriod-1))*TFPeriod;
-        newEventTime = lastTFRtime + TFPeriod  ; // the endtime of this event
+        cout << "lastTFRtime: " << lastTFRtime << endl;
+        newEventTime = lastTFRtime + 2*TFPeriod  ; // the endtime of this event
         newEventDuration = timeTFR + SIFS;
     }
     // generate next event
     struct Event lastEvent;
     updateEvent( lastEvent, nextEvent );
     updateEvent( nextEvent, newEventID, newEventTime, newEventDuration ); 
+    displayNextEvent( nextEvent );
     return lastEvent;
 }
 
@@ -459,8 +459,8 @@ void initialize( struct Event &nextEvent, vector<STA> &stations )
     {
         it->setID(i); // set ID
         it->setLocalLambda(globalLambda); // set lambda
-        updateStaState(stations[i-1], 0, 0, TFPeriod, 0); 
-        updateStaStatePS(stations[i-1], 0, 0, 0, TFPeriod); 
+        //updateStaState(stations[i-1], 0, 0, TFPeriod, 0); // don't include the first TFP into energy consumption
+        //updateStaStatePS(stations[i-1], 0, 0, 0, TFPeriod); 
     }
     updateEvent( nextEvent, 1, TFPeriod, timeTFR );
     cout << "*************************** system initialized ***********************************" << endl;
