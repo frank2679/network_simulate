@@ -8,7 +8,7 @@ using namespace std;
 struct Event apSendTriggerRandom( struct Event &nextEvent, vector<STA> &stations )
 {
     cout << endl << endl << "--------------------a new TF period--------------------" << endl;
-    std::cout << "Operation [1]: ap send TFR" << std::endl;
+    std::cout << endl << "Operation [1]: ap send TFR" << std::endl;
     cout << "myclock : " << myClock << endl;
     displayULQueue(stations);
     // + local parameters
@@ -33,12 +33,12 @@ struct Event apSendTriggerRandom( struct Event &nextEvent, vector<STA> &stations
     {
         if ( it->contendSucIndicate() ) // STAs with UL 
         {
-            cout << "$ [1] STAs with UL, value = " << timeTFR << endl;
+            cout << "$ [1] STA " << i+1 << " with UL, RX = " << timeTFR << endl;
             updateStaState(stations[i], 0, timeTFR, SIFS, 0); 
             updateStaStatePS(stations[i], 0, timeTFR, SIFS, 0); 
         }else // STAs without UL will sleep or idle until next TF period
         {
-            cout << "$ [1] STAs without UL, value = " << TFPeriod << endl;
+            cout << "$ [1] STA " << i+1 << " without UL, idle = " << TFPeriod << endl;
             updateStaState(stations[i], 0, 0, TFPeriod, 0); 
             updateStaStatePS(stations[i], 0, 0, 0, TFPeriod); 
         }
@@ -47,18 +47,20 @@ struct Event apSendTriggerRandom( struct Event &nextEvent, vector<STA> &stations
     if ( !flag ) // with UL
     {
         // for test, display the RR STAs
+        /*
         cout << "RR Staions ID (both suc or not): ";
         for ( it = stations.begin(); it != stations.end(); it++ )
             if ( it->contendSucIndicate() )
                 cout << it->getID() << ' ' ;
         cout << endl;
+        */
         newEventID = 2;
         newEventTime = myClock + nextEvent.eventDuration; // the endtime of this event
         newEventDuration = timeRR + timeContending + SIFS;
     }
     else // no sta UL
     {
-        cout << "No stations will UL. " << endl;
+        //cout << "No stations will UL. " << endl;
         newEventID = 1;
         newEventTime = (myClock/TFPeriod+1) * TFPeriod  ; // the endtime of this event
         newEventDuration = timeTFR + SIFS;
@@ -73,7 +75,7 @@ struct Event apSendTriggerRandom( struct Event &nextEvent, vector<STA> &stations
 /** event 2 **/
 struct Event RR( struct Event &nextEvent, vector<STA> &stations )
 {
-    std::cout << "Operation [2]: Resource Request" << std::endl;
+    std::cout << endl << "Operation [2]: Resource Request" << std::endl;
     cout << "myclock : " << myClock << endl;
     displayULQueue(stations);
     // local parameters
@@ -86,7 +88,6 @@ struct Event RR( struct Event &nextEvent, vector<STA> &stations )
     for ( int i = 0; i < numSta; i++ )
     {
         contendSta[i] = rand() % contendWindow;
-        //cout << "STA " << i + 1 << " backoff is " << contendSta[i] << endl;
     }
     //+ update stations working time
     it = stations.begin();
@@ -94,7 +95,7 @@ struct Event RR( struct Event &nextEvent, vector<STA> &stations )
     {
         if ( it->getContendThisTFP() )// any STAs who need RR
         {
-            cout << "$ [2] STAs with UL, value = " << timeRR <<  endl;
+            cout << "$ [2] STA " << i+1 << " with UL, TX = " << timeRR <<  endl;
             updateStaState(stations[i], timeRR, 0, SIFS, 0); 
             updateStaStatePS(stations[i], timeRR, 0, SIFS, 0); 
         }
@@ -124,6 +125,7 @@ struct Event RR( struct Event &nextEvent, vector<STA> &stations )
         }
     }
     //+ test contend 
+    /*
     cout << "suc contend STAs(ID): " ;
     for ( it = stations.begin(); it != stations.end(); it++ )
         if ( it->contendSucIndicate() )
@@ -131,6 +133,7 @@ struct Event RR( struct Event &nextEvent, vector<STA> &stations )
             cout << it->getID() << ' ';
         }
     cout << endl;
+    */
     // generate next event 
     newEventID = 3;
     newEventTime = myClock + nextEvent.eventDuration; // the endtime of this event
@@ -144,7 +147,7 @@ struct Event RR( struct Event &nextEvent, vector<STA> &stations )
 /** event 3 **/
 struct Event triggerAllocation( struct Event &nextEvent, vector<STA> &stations )
 {
-    std::cout << "Operation [3]: Trigger Allocation" << std::endl;
+    std::cout << endl << "Operation [3]: Trigger Allocation" << std::endl;
     cout << "myclock : " << myClock << endl;
     displayULQueue(stations);
     //+ RR procedure +//
@@ -179,7 +182,7 @@ struct Event triggerAllocation( struct Event &nextEvent, vector<STA> &stations )
     if ( flagLast_2 )
     {
         flagLast_2 = false;
-        cout << "last event is event [2]. " << endl;
+        //cout << "last event is event [2]. " << endl;
         srand ( time(NULL));
         int index = 0;
         Ns = ns;
@@ -204,6 +207,18 @@ struct Event triggerAllocation( struct Event &nextEvent, vector<STA> &stations )
             it->setContendSucIndicate(false);
         // test RR
         displayRRSucIndicate(stations);
+
+        //+ update stations working time
+        it = stations.begin();
+        for ( int i = 0; i < numSta; i++, it++ )
+        {
+            if ( it->getContendThisTFP() ) // STAs who need RR
+            {
+                cout << "$ [3] STA " << i+1 << " RR, RX = " << timeTF <<  endl;
+                updateStaState(stations[i], 0, timeTF, SIFS, 0); 
+                updateStaStatePS(stations[i], 0, timeTF, SIFS, 0); 
+            }//else, non-active STAs have been considered in [1].
+        }
     }
 
     // come from event [4]
@@ -213,17 +228,23 @@ struct Event triggerAllocation( struct Event &nextEvent, vector<STA> &stations )
         flagLast_4 = false;
         Ns = 0;
         cout << "last event is event [4]. " << endl;
-        displayMoreBit(stations);
-        for ( it = stations.begin(); it != stations.end(); it++ )
+        //displayMoreBit(stations);
+        it = stations.begin();
+        for ( int i = 0; it != stations.end(); i++, it++ )
             if ( it->getMoreBit() )
             {
                 it->setRRSucIndicate(true);
+                //+ update stations working time
+                cout << "$ [3] STA " << i+1 << " more bit, RX = " << timeTF <<  endl;
+                updateStaState(stations[i], 0, timeTF, SIFS, 0); 
+                updateStaStatePS(stations[i], 0, timeTF, SIFS, 0); 
                 // get the number of STAs who has more UL packets.
                 Ns++;
                 // reset morebit
                 it->setMoreBit(false);
             }
-        displayRRSucIndicate(stations);
+        // test RR
+        //displayRRSucIndicate(stations);
     }
     //++ set Rate ++//
     for ( it = stations.begin(); it != stations.end(); it++ )
@@ -236,17 +257,6 @@ struct Event triggerAllocation( struct Event &nextEvent, vector<STA> &stations )
             //cout << "STA " << stations[i].getID() << " data rate : " << dataRate  << endl;
         }
 
-    //+ update stations working time
-    it = stations.begin();
-    for ( int i = 0; i < numSta; i++, it++ )
-    {
-        if ( it->getContendThisTFP() ) // STAs who need RR
-        {
-            cout << "$ [3] STAs RR, value = " << timeTF <<  endl;
-            updateStaState(stations[i], 0, timeTF, SIFS, 0); 
-            updateStaStatePS(stations[i], 0, timeTF, SIFS, 0); 
-        }//else, non-active STAs have been considered in [1].
-    }
     //+ generate next event 
     newEventID = 4;
     newEventTime = myClock + nextEvent.eventDuration; // the endtime of this event
@@ -277,9 +287,9 @@ struct Event triggerAllocation( struct Event &nextEvent, vector<STA> &stations )
 /** event 4 **/
 struct Event ULTransmit( struct Event &nextEvent, vector<STA> &stations )
 {
-    std::cout << "Operation [4]: UL Transmit" << std::endl;
+    std::cout << endl << "Operation [4]: UL Transmit" << std::endl;
     cout << "myclock : " << myClock << endl;
-    displayULQueue(stations);
+    //displayULQueue(stations);
     vector<STA>::iterator it;
     int newEventID = 0;
     int newEventTime = 0;
@@ -294,12 +304,25 @@ struct Event ULTransmit( struct Event &nextEvent, vector<STA> &stations )
             it->popULQueue();
             // reset RRSucIndicate
             it->setRRSucIndicate(false);
-            // set more bit
-            if ( it->getULQueue() ) // all packets have been sent.
-                it->setMoreBit(true);
             // reset data rate
             it->setRate(1.0);
-            // 
+            //+ update stations working time // STAs who RR suc
+            cout << "$ [4] STA " << i+1 << " RR suc, TX = " << nextEvent.eventDuration - SIFS <<  endl;
+            updateStaState(stations[i], nextEvent.eventDuration-SIFS, 0, SIFS, 0); 
+            updateStaStatePS(stations[i], nextEvent.eventDuration-SIFS, 0, SIFS, 0); 
+            // set more bit
+            if ( it->getULQueue() ) // all packets have been sent.
+            {
+                it->setMoreBit(true);
+            }else // STAs who will not UL later
+            {
+                //+ update stations working time // STAs who has nothing UL
+                int tempDoze = (myClock/TFPeriod+1)*TFPeriod-myClock-nextEvent.eventDuration-SIFS-timeACK;
+                cout << "$ [5] STA " << i+1 << " RR suc, idle = " << tempDoze 
+                    << ", RX = " << timeACK <<  endl;
+                updateStaState(stations[i], 0, timeACK, tempDoze, 0); 
+                updateStaStatePS(stations[i], 0, timeACK, 0, tempDoze ); 
+            }
         }
 
     //+ update stations working time
@@ -307,15 +330,10 @@ struct Event ULTransmit( struct Event &nextEvent, vector<STA> &stations )
     {
         if ( stations[i].getContendThisTFP() )
         {
-            if ( stations[i].getRRSuc() ) // STAs who RR suc
-            {
-                cout << "$ [4] STAs RR suc, value = " << nextEvent.eventDuration - SIFS <<  endl;
-                updateStaState(stations[i], nextEvent.eventDuration-SIFS, 0, SIFS, 0); 
-                updateStaStatePS(stations[i], nextEvent.eventDuration-SIFS, 0, SIFS, 0); 
-            } else // STAs who RR but failed.
+            if ( !stations[i].getRRSuc() ) // STAs who RR failed 
             {
                 int tempDoze = (myClock/TFPeriod+1)*TFPeriod - myClock;
-                cout << "$ [4] STAs RR failed, value = " << tempDoze <<  endl;
+                cout << "$ [4] STA " << i+1 << " RR failed, idle = " << tempDoze <<  endl;
                 updateStaState(stations[i], 0, 0, tempDoze, 0); 
                 updateStaStatePS(stations[i], 0, 0, 0, tempDoze); 
             }
@@ -324,7 +342,7 @@ struct Event ULTransmit( struct Event &nextEvent, vector<STA> &stations )
         }//else, non-active STAs have been considered in [1].
     }
     // display the UL queue
-    cout << "after pop: ";
+    //cout << "after pop: ";
     displayULQueue(stations);
     // update next event //
     newEventID = 5;
@@ -340,7 +358,7 @@ struct Event ULTransmit( struct Event &nextEvent, vector<STA> &stations )
     if ( newEventTime > ULThreshold)
     {
         tooManyUL = true;
-        cout << "Too many UL packets.+++++++++++++++++++++++ " << endl;
+        //cout << "Too many UL packets.+++++++++++++++++++++++ " << endl;
         newEventID = 1;
         newEventTime = (myClock/TFPeriod+1) * TFPeriod  ; // the endtime of this event
         newEventDuration = timeTFR + SIFS;
@@ -360,7 +378,7 @@ struct Event ULTransmit( struct Event &nextEvent, vector<STA> &stations )
 /** event 5 **/
 struct Event triggerAck( struct Event &nextEvent, vector<STA> &stations )
 {
-    std::cout << "Operation [5]: trigger ACK" << std::endl;
+    std::cout << endl << "Operation [5]: trigger ACK" << std::endl;
     cout << "myclock : " << myClock << endl;
     vector<STA>::iterator it;
     int newEventID = 0;
@@ -371,12 +389,15 @@ struct Event triggerAck( struct Event &nextEvent, vector<STA> &stations )
     {
         if ( stations[i].getRRSuc() ) // STAs who RR
         {
-            int tempDoze = (myClock/TFPeriod+1)*TFPeriod-myClock-timeACK;
-            cout << "$ [5] STAs RR suc, value = " << tempDoze <<  endl;
-            updateStaState(stations[i], 0, timeACK, tempDoze, 0); 
-            updateStaStatePS(stations[i], 0, timeACK, 0, tempDoze ); 
+            //int tempDoze = (myClock/TFPeriod+1)*TFPeriod-myClock-timeACK;
+            //cout << "$ [5] STA " << i+1 << " RR suc, idle = " << tempDoze 
+            //    << ", RX = " << timeACK <<  endl;
+            //updateStaState(stations[i], 0, timeACK, tempDoze, 0); 
+            //updateStaStatePS(stations[i], 0, timeACK, 0, tempDoze ); 
             // reset RRsuc
             stations[i].setRRSuc(false);
+            // reset contend this TFP
+            stations[i].setContendThisTFP(false);
         }
     }
 
@@ -388,6 +409,33 @@ struct Event triggerAck( struct Event &nextEvent, vector<STA> &stations )
     updateEvent( lastEvent, nextEvent );
     updateEvent( nextEvent, newEventID, newEventTime, newEventDuration ); 
     return lastEvent;
+}
+
+/** estimate system performance **/
+void estimate( vector<STA> &stations )
+{
+    vector<STA>::iterator it;
+    int totalSentPkt = 0;
+    // display arrival average
+    for ( int i = 0; i < numSta; i++ )
+    {
+        totalSentPkt = stations[i].getTotalSentPkt();
+        cout << "total sent pkt: " << totalSentPkt << endl;
+        cout << "estimated lambda: " << double(totalSentPkt)/double(endTime) << endl;
+    }
+    // display working state and compute energy consumption
+    double energyEfficiency = 0.0;
+    double energyNoPS = 0.0, energyPS = 0.0;
+    for ( it = stations.begin(); it != stations.end(); it++)
+    {
+        cout << "-------------STA " << it->getID() << "-------------" << endl;
+        it->displayStaState();
+        it->energyConsumption(); // compute
+        energyNoPS = it->getEnergyConsumption();
+        energyPS = it->getEnergyConsumptionPS();
+        energyEfficiency = (energyNoPS-energyPS)/energyNoPS;
+        cout << "Energy efficiency: " << energyEfficiency << endl;
+    }
 }
 
 /** initialize system  **/
@@ -414,6 +462,7 @@ void updateEvent( struct Event &lastEvent, int newID, int newEventTime, int newE
     lastEvent.eventTime = newEventTime; 
     lastEvent.eventDuration = newEventDuration;
 }
+
 void updateEvent( struct Event &lastEvent, struct Event &nextEvent )
 {
     lastEvent.eventID = nextEvent.eventID;
@@ -421,7 +470,6 @@ void updateEvent( struct Event &lastEvent, struct Event &nextEvent )
     lastEvent.eventDuration = nextEvent.eventDuration;
 }
 
-/* help functions */
 /** displaySystemState **/
 void displaySystemState( vector<STA> &stations)
 {
@@ -453,6 +501,7 @@ void displayNextEvent(const struct Event &nextEvent )
     cout << "event duration: " << nextEvent.eventDuration << endl;
     cout << "+++++++++++++++++end++++++++++++++++++" << endl;
 }
+
 void displayLastEvent(const struct Event &nextEvent )
 {
     cout << "-------------last event: -------------" << endl;
@@ -463,22 +512,3 @@ void displayLastEvent(const struct Event &nextEvent )
     cout << "-----------------end------------------" << endl;
 }
 
-/** estimate system performance **/
-void estimate( vector<STA> &stations )
-{
-    vector<STA>::iterator it;
-    int totalSentPkt = 0;
-    // display arrival average
-    for ( int i = 0; i < numSta; i++ )
-    {
-        totalSentPkt = stations[i].getTotalSentPkt();
-        cout << "total sent pkt: " << totalSentPkt << endl;
-        cout << "estimated lambda: " << double(totalSentPkt)/double(endTime) << endl;
-    }
-    // display working state
-    for ( it = stations.begin(); it != stations.end(); it++)
-    {
-        cout << "-------------STA " << it->getID() << "-------------" << endl;
-        it->displayStaState();
-    }
-}

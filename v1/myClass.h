@@ -32,6 +32,7 @@ class STA
         int totalSentPkt = 0;   
         int timeTX = 0, timeRX = 0, timeIdle = 0, timeDoze = 0;
         int timePSTX = 0, timePSRX = 0, timePSIdle = 0, timePSDoze = 0;
+        int EnergyConsumption = 0, EnergyConsumptionPS = 0;
     public:
         //* constructor *// 
         STA(){} // constructor
@@ -52,6 +53,8 @@ class STA
         bool RRSucIndicate() { return RRSucIndicator; }
         bool getMoreBit() { return moreBit; }
         int getTotalSentPkt() { return totalSentPkt; }
+        int getEnergyConsumption() { return EnergyConsumption; }
+        int getEnergyConsumptionPS() { return EnergyConsumptionPS; }
 
         //* setting *//
         void setID(int n){ ID = n;}
@@ -69,6 +72,7 @@ class STA
         //void displayArrivalTime();
         void validateArrival();
         void displayStaState();
+        void energyConsumption();
 };
 
 struct Event

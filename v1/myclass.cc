@@ -5,6 +5,7 @@
 using namespace std;
 
 /* friend function */
+
 void updateStaState( STA &sta, int TX, int RX, int Idle, int Doze )
 {
     sta.timeTX += TX;
@@ -124,4 +125,10 @@ void displayMoreBit( vector<STA> &stations)
         if ( it->moreBit )
             cout << it->getID() << ' ' ;
     cout << endl;
+}
+
+void STA::energyConsumption()
+{
+    EnergyConsumption = timeTX*powerTX + timeRX*powerRX + timeIdle*powerIdle + timeDoze*powerDoze;
+    EnergyConsumptionPS = timePSTX*powerTX + timePSRX*powerRX + timePSIdle*powerIdle + timePSDoze*powerDoze;
 }

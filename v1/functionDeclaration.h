@@ -1,9 +1,9 @@
 #include "myClass.h"
 /* system configuring */ // all parameters will be set the first time they are set. 
 extern int myClock; 
-extern double const globalLambda;
+extern double globalLambda;
+extern int numSta;
 extern int const TFPeriod;
-extern int const numSta;
 extern int const contendWindow;
 extern int const endTime;
 extern int const timeTFR;
@@ -15,6 +15,10 @@ extern int const timeACK;
 extern int const SIFS;
 extern int const nch;
 extern int const timeMaxUL;
+extern int const powerTX;
+extern int const powerRX;
+extern int const powerIdle;
+extern int const powerDoze;
 extern bool tooManyUL;
 
 /* 5 operations */
