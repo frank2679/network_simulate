@@ -7,10 +7,10 @@ using namespace std;
 /* system parameters, global variables */
 int myClock; // system clock
 int numSta = 5;
-double globalLambda = 0.0001; // pkts/us
+double globalLambda = 0.0002; // pkts/us
 const int TFPeriod = 10000; // 10ms
-const int contendWindow = 5;
-const int endTime = 50000; // 1000000us = 1s 
+const int contendWindow = 32;
+const int endTime = 4100000; // 1000000us = 1s 
 const int timeTFR = 50; // 50us
 const int timeTF = 50;
 const int timeContending = 0; // didn't consider it originally
@@ -83,7 +83,7 @@ int main()
     }
     /* system estimate */
     cout << "******************** simulation end, Report here ********************" << endl;
-    displaySystemState( stations ); // passing with reference
+    displaySystemState( stations ); 
     estimate( stations );
     if ( tooManyUL )
         cout << "Too many UL " <<  endl;

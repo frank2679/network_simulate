@@ -62,7 +62,8 @@ struct Event apSendTriggerRandom( struct Event &nextEvent, vector<STA> &stations
     {
         //cout << "No stations will UL. " << endl;
         newEventID = 1;
-        newEventTime = (myClock/TFPeriod+1) * TFPeriod  ; // the endtime of this event
+        int lastTFRtime = ((myClock%TFPeriod)?(myClock/TFPeriod):(myClock/TFPeriod-1))*TFPeriod;
+        newEventTime = lastTFRtime + TFPeriod  ; // the endtime of this event
         newEventDuration = timeTFR + SIFS;
     }
     // generate next event
@@ -259,17 +260,20 @@ struct Event triggerAllocation( struct Event &nextEvent, vector<STA> &stations )
 
     //+ generate next event 
     newEventID = 4;
-    newEventTime = myClock + nextEvent.eventDuration; // the endtime of this event
+    newEventTime = myClock + nextEvent.eventDuration; // the endtime of this event also the start time of next event
     newEventDuration = double(timePkt)/double(dataRate) + SIFS; // datarate
     //++ check whether too many UL packets or not ++// 
     int ULThreshold = 0;
-    ULThreshold = timeMaxUL + (myClock/TFPeriod) * TFPeriod;
-    if ( newEventTime > ULThreshold)
+    int lastTFRtime = ((myClock%TFPeriod)?(myClock/TFPeriod):(myClock/TFPeriod-1))*TFPeriod;
+    cout << "lastTFRtime = " << lastTFRtime << endl;
+    ULThreshold = timeMaxUL + lastTFRtime;
+    if ( newEventTime >= ULThreshold )
     {
         tooManyUL = true;
-        cout << "Too many UL packets.+++++++++++++++++++++++ " << endl;
+        cout << "[3] Too many UL packets.+++++++++++++++++++++++ " << endl;
+        cout << "nextEventTime: " << newEventTime << endl;
         newEventID = 1; 
-        newEventTime = (myClock/TFPeriod+1) * TFPeriod  ; // the endtime of this event
+        newEventTime = lastTFRtime + TFPeriod  ; // the endtime of this event
         newEventDuration = timeTFR + SIFS;
         // reset more bit
         for ( it = stations.begin(); it != stations.end(); it++ )
@@ -354,13 +358,16 @@ struct Event ULTransmit( struct Event &nextEvent, vector<STA> &stations )
 
     // check whether too many UL arrives or not
     int ULThreshold = 0;
-    ULThreshold = timeMaxUL + (myClock/TFPeriod) * TFPeriod;
-    if ( newEventTime > ULThreshold)
+    int lastTFRtime = ((myClock%TFPeriod)?(myClock/TFPeriod):(myClock/TFPeriod-1))*TFPeriod;
+    cout << "lastTFRtime = " << lastTFRtime << endl;
+    ULThreshold = timeMaxUL + lastTFRtime;
+    if ( newEventTime >= ULThreshold )
     {
         tooManyUL = true;
-        //cout << "Too many UL packets.+++++++++++++++++++++++ " << endl;
+        cout << "[4] Too many UL packets.+++++++++++++++++++++++ " << endl;
+        cout << "nextEventTime: " << newEventTime << endl;
         newEventID = 1;
-        newEventTime = (myClock/TFPeriod+1) * TFPeriod  ; // the endtime of this event
+        newEventTime = lastTFRtime + TFPeriod  ; 
         newEventDuration = timeTFR + SIFS;
         // reset more bit
         for ( it = stations.begin(); it != stations.end(); it++ )
@@ -403,7 +410,8 @@ struct Event triggerAck( struct Event &nextEvent, vector<STA> &stations )
 
     // generate next Event
     newEventID = 1;
-    newEventTime = (myClock/TFPeriod+1) * TFPeriod  ; // the endtime of this event
+    int lastTFRtime = ((myClock%TFPeriod)?(myClock/TFPeriod):(myClock/TFPeriod-1))*TFPeriod;
+    newEventTime = lastTFRtime + TFPeriod; 
     newEventDuration = timeTFR + SIFS;
     struct Event lastEvent;
     updateEvent( lastEvent, nextEvent );
@@ -424,18 +432,22 @@ void estimate( vector<STA> &stations )
         cout << "estimated lambda: " << double(totalSentPkt)/double(endTime) << endl;
     }
     // display working state and compute energy consumption
-    double energyEfficiency = 0.0;
-    double energyNoPS = 0.0, energyPS = 0.0;
+    double totalEnergyEfficiency = 0.0;
     for ( it = stations.begin(); it != stations.end(); it++)
     {
         cout << "-------------STA " << it->getID() << "-------------" << endl;
         it->displayStaState();
         it->energyConsumption(); // compute
-        energyNoPS = it->getEnergyConsumption();
-        energyPS = it->getEnergyConsumptionPS();
-        energyEfficiency = (energyNoPS-energyPS)/energyNoPS;
-        cout << "Energy efficiency: " << energyEfficiency << endl;
+        it->computeEnergyEfficiency();
+        cout << "Energy efficiency: " << it->getEnergyEfficiency() << endl;
     }
+    for ( it = stations.begin(); it != stations.end(); it++)
+    {
+        totalEnergyEfficiency += it->getEnergyEfficiency();
+    }
+    totalEnergyEfficiency /= numSta;
+    cout << endl << "total Energy Efficiency = " 
+        << totalEnergyEfficiency << endl; 
 }
 
 /** initialize system  **/
@@ -474,20 +486,20 @@ void updateEvent( struct Event &lastEvent, struct Event &nextEvent )
 void displaySystemState( vector<STA> &stations)
 {
     cout << "*********** system state top **************" << endl;
-    cout << "system clock(us): " << myClock << endl;
-    cout << "simulation endtime: " << endTime << endl;
+    cout << "system clock(us):    " << myClock << endl;
+    cout << "simulation endtime:  " << endTime << endl;
     /* test container */
-    cout << "stations ID: " ;
+    cout << "stations ID: (0 is AP)" ;
     for(int i = 0; i < numSta; i++)
     {
         if ( !(i%20) )
             cout << endl;
         cout << setw(2) << stations[i].getID() << ' ';
     }
-    cout << "(0 is AP)" <<  endl;
-    cout << "TF period: " << TFPeriod << endl;
-    cout << "system lambda: " << globalLambda << endl;
-    cout << "the Maximum UL duration: " << timeMaxUL << endl;
+    cout << endl << "TF period:           " << TFPeriod << endl;
+    cout << "Contend Window Size: " << contendWindow << endl; 
+    cout << "system lambda:       " << globalLambda << endl;
+    cout << "the Maximum UL:      " << timeMaxUL << endl;
     cout << "*********** system state end **************" << endl;
 }
 

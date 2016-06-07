@@ -132,3 +132,10 @@ void STA::energyConsumption()
     EnergyConsumption = timeTX*powerTX + timeRX*powerRX + timeIdle*powerIdle + timeDoze*powerDoze;
     EnergyConsumptionPS = timePSTX*powerTX + timePSRX*powerRX + timePSIdle*powerIdle + timePSDoze*powerDoze;
 }
+
+void STA::computeEnergyEfficiency()
+{
+    double energyNoPS = this->getEnergyConsumption();
+    double energyPS = this->getEnergyConsumptionPS();
+    energyEfficiency = (energyNoPS - energyPS)/energyNoPS;
+}
