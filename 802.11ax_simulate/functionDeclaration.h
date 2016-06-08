@@ -34,5 +34,6 @@ void updateEvent( struct Event &, int , int, int);
 void updateEvent( struct Event &, struct Event & );
 void displayNextEvent( const struct Event & );
 void displayLastEvent( const struct Event & );
-void estimate( std::vector<STA> & );
+double estimate( std::vector<STA> & );
 void calculateWorkTime( struct Event &, struct Event &, std::vector<STA> & );
+double simulate();

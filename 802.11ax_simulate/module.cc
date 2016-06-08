@@ -8,6 +8,7 @@ using namespace std;
 struct Event apSendTriggerRandom( struct Event &nextEvent, vector<STA> &stations )
 {
     cout << endl << endl << "--------------------a new TF period--------------------" << endl;
+    //cout << "event[1] numSta = " << numSta << endl;
     std::cout << endl << "Operation [1]: ap send TFR" << std::endl;
     cout << "myclock : " << myClock << endl;
     displayULQueue(stations);
@@ -420,7 +421,7 @@ struct Event triggerAck( struct Event &nextEvent, vector<STA> &stations )
 }
 
 /** estimate system performance **/
-void estimate( vector<STA> &stations )
+double estimate( vector<STA> &stations )
 {
     vector<STA>::iterator it;
     int totalSentPkt = 0;
@@ -448,11 +449,13 @@ void estimate( vector<STA> &stations )
     totalEnergyEfficiency /= numSta;
     cout << endl << "total Energy Efficiency = " 
         << totalEnergyEfficiency << endl; 
+    return totalEnergyEfficiency;
 }
 
 /** initialize system  **/
 void initialize( struct Event &nextEvent, vector<STA> &stations )
 {
+    myClock = 0;
     //* set stations *//
     vector<STA>::iterator it = stations.begin();
     for (int i = 1; it != stations.end(); i++, it++)

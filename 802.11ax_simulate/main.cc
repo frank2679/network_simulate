@@ -1,13 +1,14 @@
 #include <iostream>
 #include <vector>
+#include <fstream>
 #include "myClass.h"
 #include "functionDeclaration.h"
 using namespace std;
 
 /* system parameters, global variables */
 int myClock; // system clock
-int numSta = 5;
-double globalLambda = 0.0002; // pkts/us
+int numSta = 1;
+double globalLambda = 0.00006; // pkts/us
 const int TFPeriod = 10000; // 10ms
 const int contendWindow = 32;
 const int endTime = 4100000; // 1000000us = 1s 
@@ -29,8 +30,25 @@ bool tooManyUL = false;
 int main()
 {
     /* parameters */
+    double energyEfficiency = 0.0;
 
-    /* build nodes */
+    // file output
+    ofstream myfile;
+    myfile.open("./data/output_1.dat", ofstream::app);
+
+    for (; globalLambda < 0.0003; globalLambda += 0.00003)
+    {
+        energyEfficiency = simulate();
+        // fileout
+        myfile << globalLambda << ' ' << energyEfficiency << endl; 
+    }
+
+    myfile.close();
+    return 0;
+}
+double simulate()
+{
+    double energyEfficiency = 0.0;
     vector<STA> stations(numSta);
     STA ap(0);
 
@@ -84,9 +102,8 @@ int main()
     /* system estimate */
     cout << "******************** simulation end, Report here ********************" << endl;
     displaySystemState( stations ); 
-    estimate( stations );
+    energyEfficiency = estimate( stations );
     if ( tooManyUL )
         cout << "Too many UL " <<  endl;
-    
-    return 0;
+    return energyEfficiency;
 }
