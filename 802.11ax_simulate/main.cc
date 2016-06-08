@@ -8,7 +8,7 @@ using namespace std;
 /* system parameters, global variables */
 int myClock; // system clock
 int numSta = 1;
-double globalLambda = 0.00006; // pkts/us
+double globalLambda = 0.00001; // pkts/us
 const int TFPeriod = 10000; // 10ms
 const int contendWindow = 32;
 const int endTime = 4100000; // 1000000us = 1s 
