@@ -129,8 +129,8 @@ void displayMoreBit( vector<STA> &stations)
 
 void STA::energyConsumption()
 {
-    EnergyConsumption = timeTX*powerTX + timeRX*powerRX + timeIdle*powerIdle + timeDoze*powerDoze;
-    EnergyConsumptionPS = timePSTX*powerTX + timePSRX*powerRX + timePSIdle*powerIdle + timePSDoze*powerDoze;
+    EnergyConsumption = double(timeTX)*powerTX + double(timeRX)*powerRX + double(timeIdle)*powerIdle + double(timeDoze)*powerDoze;
+    EnergyConsumptionPS = double(timePSTX)*powerTX + double(timePSRX)*powerRX + double(timePSIdle)*powerIdle + double(timePSDoze)*powerDoze;
 }
 
 void STA::computeEnergyEfficiency()

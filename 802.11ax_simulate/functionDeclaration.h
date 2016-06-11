@@ -15,10 +15,10 @@ extern int const timeACK;
 extern int const SIFS;
 extern int const nch;
 extern int const timeMaxUL;
-extern int const powerTX;
-extern int const powerRX;
-extern int const powerIdle;
-extern int const powerDoze;
+extern double const powerTX;
+extern double const powerRX;
+extern double const powerIdle;
+extern double const powerDoze;
 extern bool tooManyUL;
 
 /* 5 operations */

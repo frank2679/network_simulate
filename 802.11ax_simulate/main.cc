@@ -1,3 +1,10 @@
+/* To run this file,
+ * 1. change the numSta 
+ * 2. change output
+ * tips:
+ *  When the endtime is not long enough, the result is not right. 
+ *
+ */
 #include <iostream>
 #include <vector>
 #include <fstream>
@@ -11,7 +18,7 @@ int numSta = 1;
 double globalLambda = 0.00001; // pkts/us
 const int TFPeriod = 10000; // 10ms
 const int contendWindow = 32;
-const int endTime = 4100000; // 1000000us = 1s 
+const int endTime = 8100000; // 1000000us = 1s 
 const int timeTFR = 50; // 50us
 const int timeTF = 50;
 const int timeContending = 0; // didn't consider it originally
@@ -20,10 +27,10 @@ const int timePkt = 1000;
 const int timeACK = 50;
 const int SIFS = 0;
 const int nch = 10;
-const int powerTX = 1000;
-const int powerRX = 600;
-const int powerIdle = 300;
-const int powerDoze = 150;
+const double  powerTX = 1.0; // unit: W
+const double  powerRX = 0.6;
+const double  powerIdle = 0.3;
+const double powerDoze = 0.15;
 const int timeMaxUL = 10000;
 bool tooManyUL = false;
 
@@ -36,7 +43,7 @@ int main()
     ofstream myfile;
     myfile.open("./data/output_1.dat", ofstream::app);
 
-    for (; globalLambda < 0.0003; globalLambda += 0.00003)
+    for (; globalLambda < 0.0003; globalLambda += 0.00005)
     {
         energyEfficiency = simulate();
         // fileout

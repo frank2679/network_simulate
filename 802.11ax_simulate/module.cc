@@ -440,8 +440,14 @@ double estimate( vector<STA> &stations )
         it->displayStaState();
         it->energyConsumption(); // compute
         it->computeEnergyEfficiency();
-        cout << "Energy efficiency: " << it->getEnergyEfficiency() << endl;
+        cout << "Energy Consumptino:    " 
+            << it->getEnergyConsumption() << endl;
+        cout << "PS Energy Consumptino: " 
+            << it->getEnergyConsumptionPS() << endl;
+        cout << "Energy efficiency:     " 
+            << it->getEnergyEfficiency() << endl;
     }
+    // compute total energy efficiency
     for ( it = stations.begin(); it != stations.end(); it++)
     {
         totalEnergyEfficiency += it->getEnergyEfficiency();

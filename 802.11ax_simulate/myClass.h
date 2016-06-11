@@ -32,7 +32,7 @@ class STA
         int totalSentPkt = 0;   
         int timeTX = 0, timeRX = 0, timeIdle = 0, timeDoze = 0;
         int timePSTX = 0, timePSRX = 0, timePSIdle = 0, timePSDoze = 0;
-        int EnergyConsumption = 0, EnergyConsumptionPS = 0;
+        double EnergyConsumption = 0.0, EnergyConsumptionPS = 0.0;
         double energyEfficiency = 0.0;
     public:
         //* constructor *// 
@@ -54,8 +54,8 @@ class STA
         bool RRSucIndicate() { return RRSucIndicator; }
         bool getMoreBit() { return moreBit; }
         int getTotalSentPkt() { return totalSentPkt; }
-        int getEnergyConsumption() { return EnergyConsumption; }
-        int getEnergyConsumptionPS() { return EnergyConsumptionPS; }
+        double getEnergyConsumption() { return EnergyConsumption; }
+        double getEnergyConsumptionPS() { return EnergyConsumptionPS; }
         double getEnergyEfficiency() { return energyEfficiency; }
 
         //* setting *//
