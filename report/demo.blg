@@ -1,0 +1,57 @@
+This is BibTeX, Version 0.99d (TeX Live 2013/Debian)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: demo.aux
+The style file: abbrv.bst
+Database file #1: demo.bib
+Warning--to sort, need author or key in mu_ul
+Warning--to sort, need author or key in pps
+Warning--to sort, need author or key in psra
+Warning--empty author in mu_ul
+Warning--empty journal in mu_ul
+Warning--empty author in pps
+Warning--empty journal in pps
+Warning--empty author in psra
+Warning--empty journal in psra
+Warning--empty journal in lin2005comprehensive
+You've used 7 entries,
+            2118 wiz_defined-function locations,
+            529 strings with 4498 characters,
+and the built_in function-call counts, 1773 in all, are:
+= -- 175
+> -- 42
+< -- 2
++ -- 21
+- -- 12
+* -- 108
+:= -- 271
+add.period$ -- 19
+call.type$ -- 7
+change.case$ -- 26
+chr.to.int$ -- 0
+cite$ -- 17
+duplicate$ -- 88
+empty$ -- 165
+format.name$ -- 12
+if$ -- 381
+int.to.chr$ -- 0
+int.to.str$ -- 7
+missing$ -- 8
+newline$ -- 35
+num.names$ -- 8
+pop$ -- 42
+preamble$ -- 1
+purify$ -- 20
+quote$ -- 0
+skip$ -- 63
+stack$ -- 0
+substring$ -- 102
+swap$ -- 16
+text.length$ -- 2
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 26
+warning$ -- 10
+while$ -- 13
+width$ -- 8
+write$ -- 66
+(There were 10 warnings)

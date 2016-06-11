@@ -1,0 +1,9 @@
+\beamer@endinputifotherversion {3.24pt}
+\beamer@sectionintoc {1}{802.11 MAC and its Power Save}{3}{0}{1}
+\beamer@sectionintoc {2}{Difference in 802.11ax MAC}{9}{0}{2}
+\beamer@sectionintoc {3}{My PS design for 802.11ax UL}{14}{0}{3}
+\beamer@subsectionintoc {3}{1}{Design Description}{15}{0}{3}
+\beamer@subsectionintoc {3}{2}{Problem Formulation}{16}{0}{3}
+\beamer@subsectionintoc {3}{3}{Numerical Result}{24}{0}{3}
+\beamer@sectionintoc {4}{Issues}{30}{0}{4}
+\beamer@sectionintoc {5}{Appendix}{32}{0}{5}

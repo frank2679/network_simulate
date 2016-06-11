@@ -1,0 +1,40 @@
+\begin{thebibliography}{1}
+
+\bibitem{mu_ul}
+Ul mu procedure.
+\newblock 2015-03-09.
+
+\bibitem{pps}
+Identifiers in he ppdus for power saving.
+\newblock 2015-09-12.
+
+\bibitem{psra}
+Power save with random access.
+\newblock 2015-09-14.
+
+\bibitem{bianchi2000performance}
+G.~Bianchi.
+\newblock Performance analysis of the ieee 802.11 distributed coordination
+  function.
+\newblock {\em Selected Areas in Communications, IEEE Journal on},
+  18(3):535--547, 2000.
+
+\bibitem{lin2005comprehensive}
+E.-Y. Lin.
+\newblock A comprehensive study of power-efficient rendezvous schemes for
+  wireless sensor networks.
+\newblock 2005.
+
+\bibitem{ross2014introduction}
+S.~M. Ross.
+\newblock {\em Introduction to probability models}.
+\newblock Academic press, 2014.
+
+\bibitem{ye2002energy}
+W.~Ye, J.~Heidemann, and D.~Estrin.
+\newblock An energy-efficient mac protocol for wireless sensor networks.
+\newblock In {\em INFOCOM 2002. Twenty-First Annual Joint Conference of the
+  IEEE Computer and Communications Societies. Proceedings. IEEE}, volume~3,
+  pages 1567--1576. IEEE, 2002.
+
+\end{thebibliography}
