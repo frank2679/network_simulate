@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2015.10.7)  13 JUN 2016 10:24
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2015.10.7)  13 JUN 2016 17:58
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1005,14 +1005,7 @@ Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
 (./pgfplotsthemetol.sty
 Package: pgfplotsthemetol 2015/06/16 PGFplots colors based on Paul Tol's SRON t
 echnical note
-) (./demo.aux
-
-LaTeX Warning: Label `fig_ps_ax_2' multiply defined.
-
-
-LaTeX Warning: Label `test_per' multiply defined.
-
-)
+) (./demo.aux)
 \openout1 = `demo.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 38.
@@ -1190,7 +1183,7 @@ LaTeX Info: Redefining \selectfont on input line 38.
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: End \AtBeginDocument code.
  (./demo.nav)
-<logo.jpg, id=45, 225.84375pt x 224.84pt>
+<logo.jpg, id=21, 225.84375pt x 224.84pt>
 File: logo.jpg Graphic file (type jpg)
  <use logo.jpg>
 Package pdftex.def Info: logo.jpg used on input line 40.
@@ -1228,406 +1221,22 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ) [3
 
 ]
-<./figure/DCF.jpg, id=80, 413.29407pt x 156.585pt>
-File: ./figure/DCF.jpg Graphic file (type jpg)
- <use ./figure/DCF.jpg>
-Package pdftex.def Info: ./figure/DCF.jpg used on input line 62.
-(pdftex.def)             Requested size: 247.97835pt x 93.95172pt.
-
-Overfull \hbox (0.4pt too wide) in paragraph at lines 62--62
+Overfull \hbox (0.4pt too wide) in paragraph at lines 66--66
 [][]  
- []
-
-
-Overfull \vbox (8.11478pt too high) detected at line 62
  []
 
 [4
 
- <./figure/DCF.jpg>]
-Overfull \hbox (0.4pt too wide) in paragraph at lines 78--78
+] [5
+
+]
+Overfull \hbox (0.4pt too wide) in paragraph at lines 79--79
 [][]  
- []
-
-[5
-
-] <./figure/energy_consumption.png, id=93, 730.73pt x 610.28pt>
-File: ./figure/energy_consumption.png Graphic file (type png)
-
-<use ./figure/energy_consumption.png>
-Package pdftex.def Info: ./figure/energy_consumption.png used on input line 87.
-
-(pdftex.def)             Requested size: 255.75932pt x 213.6012pt.
-
-Overfull \hbox (0.4pt too wide) in paragraph at lines 87--87
-[][]  
- []
-
-
-Overfull \vbox (27.49811pt too high) detected at line 87
  []
 
 [6
 
- <./figure/energy_consumption.png>]
-LaTeX Font Info:    Try loading font information for OMS+cmss on input line 99.
-
-LaTeX Font Info:    No file OMScmss.fd. on input line 99.
-
-
-LaTeX Font Warning: Font shape `OMS/cmss/m/n' undefined
-(Font)              using `OMS/cmsy/m/n' instead
-(Font)              for symbol `textbullet' on input line 99.
-
-
-Overfull \hbox (0.4pt too wide) in paragraph at lines 99--99
-[][]  
- []
-
-[7
-
-] <./figure/legacy_PSM.jpg, id=109, 343.5234pt x 209.1012pt>
-File: ./figure/legacy_PSM.jpg Graphic file (type jpg)
-
-<use ./figure/legacy_PSM.jpg>
-Package pdftex.def Info: ./figure/legacy_PSM.jpg used on input line 108.
-(pdftex.def)             Requested size: 274.81908pt x 167.28117pt.
-
-Overfull \hbox (0.4pt too wide) in paragraph at lines 108--108
-[][]  
- []
-
-[8
-
- <./figure/legacy_PSM.jpg>] [9
-
-]
-<./figure/mu_ul.png, id=121, 660.4675pt x 234.8775pt>
-File: ./figure/mu_ul.png Graphic file (type png)
- <use ./figure/mu_ul.png>
-Package pdftex.def Info: ./figure/mu_ul.png used on input line 123.
-(pdftex.def)             Requested size: 231.16708pt x 82.20834pt.
-
-Overfull \hbox (0.4pt too wide) in paragraph at lines 123--123
-[][]  
- []
-
-[10
-
- <./figure/mu_ul.png>] <./figure/pps.png, id=132, 886.31125pt x 158.5925pt>
-File: ./figure/pps.png Graphic file (type png)
-
-<use ./figure/pps.png>
-Package pdftex.def Info: ./figure/pps.png used on input line 142.
-(pdftex.def)             Requested size: 265.89542pt x 47.57811pt.
-
-Overfull \hbox (0.4pt too wide) in paragraph at lines 142--142
-[][]  
- []
-
-[11
-
- <./figure/pps.png>] <./figure/psra.png, id=142, 876.27374pt x 462.72874pt>
-File: ./figure/psra.png Graphic file (type png)
-
-<use ./figure/psra.png>
-Package pdftex.def Info: ./figure/psra.png used on input line 153.
-(pdftex.def)             Requested size: 297.92912pt x 157.32568pt.
-
-Overfull \hbox (0.4pt too wide) in paragraph at lines 153--153
-[][]  
- []
-
-
-Overfull \vbox (19.56682pt too high) detected at line 153
- []
-
-[12
-
- <./figure/psra.png>]
-Missing character: There is no â in font cmssbx10!
-Missing character: There is no € in font cmssbx10!
-Missing character: There is no ¢ in font cmssbx10!
-
-Overfull \hbox (0.4pt too wide) in paragraph at lines 168--168
-[][]  
- []
-
-[13
-
-] [14
-
-] <./figure/ps_ax.png, id=163, 1080.035pt x 261.97874pt>
-File: ./figure/ps_ax.png Graphic file (type png)
-
-<use ./figure/ps_ax.png>
-Package pdftex.def Info: ./figure/ps_ax.png used on input line 193.
-(pdftex.def)             Requested size: 270.00809pt x 65.49452pt.
-
-Overfull \hbox (0.4pt too wide) in paragraph at lines 193--193
-[][]  
- []
-
-
-Overfull \vbox (13.25743pt too high) detected at line 193
- []
-
-[15
-
- <./figure/ps_ax.png>]
-Overfull \hbox (0.4pt too wide) in paragraph at lines 229--229
-[][]  
- []
-
-
-Overfull \vbox (17.17491pt too high) detected at line 229
- []
-
-[16
-
-]
-File: ./figure/ps_ax.png Graphic file (type png)
- <use ./figure/ps_ax.png>
-Package pdftex.def Info: ./figure/ps_ax.png used on input line 256.
-(pdftex.def)             Requested size: 270.00809pt x 65.49452pt.
-
-Overfull \hbox (0.4pt too wide) in paragraph at lines 256--256
-[][]  
- []
-
-[17
-
-]
-File: ./figure/ps_ax.png Graphic file (type png)
- <use ./figure/ps_ax.png>
-Package pdftex.def Info: ./figure/ps_ax.png used on input line 279.
-(pdftex.def)             Requested size: 270.00809pt x 65.49452pt.
-pdfTeX warning (ext4): destination with the same identifier (name{fig_ps_ax_2})
- has been already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.279 \end{frame}
-                 
-Overfull \hbox (0.4pt too wide) in paragraph at lines 279--279
-[][]  
- []
-
-[18
-
-]
-Overfull \hbox (0.4pt too wide) in paragraph at lines 317--317
-[][]  
- []
-
-[19
-
-]
-Overfull \hbox (0.4pt too wide) in paragraph at lines 356--356
-[][]  
- []
-
-[20
-
-]
-Overfull \hbox (10.44894pt too wide) in paragraph at lines 398--398
-[]  
- []
-
-
-Overfull \hbox (0.4pt too wide) in paragraph at lines 398--398
-[][]  
- []
-
-
-Overfull \vbox (17.40002pt too high) detected at line 398
- []
-
-[21
-
-]
-Overfull \hbox (0.4pt too wide) in paragraph at lines 423--423
-[][]  
- []
-
-[22
-
-]
-Overfull \hbox (0.4pt too wide) in paragraph at lines 439--439
-[][]  
- []
-
-[23
-
-]
-Overfull \hbox (0.4pt too wide) in paragraph at lines 476--476
-[][]  
- []
-
-[24
-
-] <./figure/test_per.png, id=239, 676.77844pt x 435.12563pt>
-File: ./figure/test_per.png Graphic file (type png)
-
-<use ./figure/test_per.png>
-Package pdftex.def Info: ./figure/test_per.png used on input line 485.
-(pdftex.def)             Requested size: 304.54749pt x 195.80472pt.
-
-Overfull \hbox (0.4pt too wide) in paragraph at lines 485--485
-[][]  
- []
-
-
-Overfull \vbox (8.36829pt too high) detected at line 485
- []
-
-[25
-
- <./figure/test_per.png (PNG copy)>]
-<./figure/test_per_2.png, id=247, 676.77844pt x 414.04688pt>
-File: ./figure/test_per_2.png Graphic file (type png)
-
-<use ./figure/test_per_2.png>
-Package pdftex.def Info: ./figure/test_per_2.png used on input line 504.
-(pdftex.def)             Requested size: 175.95824pt x 107.64964pt.
-
-Overfull \hbox (0.4pt too wide) in paragraph at lines 504--504
-[][]  
- []
-
-
-Overfull \vbox (23.90715pt too high) detected at line 504
- []
-
-[26
-
- <./figure/test_per_2.png (PNG copy)>]
-<./figure/test_ns.png, id=254, 676.77844pt x 414.04688pt>
-File: ./figure/test_ns.png Graphic file (type png)
-
-<use ./figure/test_ns.png>
-Package pdftex.def Info: ./figure/test_ns.png used on input line 518.
-(pdftex.def)             Requested size: 236.876pt x 144.91856pt.
-
-Overfull \hbox (0.4pt too wide) in paragraph at lines 518--518
-[][]  
- []
-
-
-Overfull \vbox (19.18182pt too high) detected at line 518
- []
-
-[27
-
- <./figure/test_ns.png (PNG copy)>]
-<./figure/test_ps.png, id=263, 520.19344pt x 341.77687pt>
-File: ./figure/test_ps.png Graphic file (type png)
-
-<use ./figure/test_ps.png>
-Package pdftex.def Info: ./figure/test_ps.png used on input line 531.
-(pdftex.def)             Requested size: 234.08487pt x 153.79816pt.
-pdfTeX warning (ext4): destination with the same identifier (name{test_per}) ha
-s been already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.531 \end{frame}
-                 
-Overfull \hbox (0.4pt too wide) in paragraph at lines 531--531
-[][]  
- []
-
-
-Overfull \vbox (28.50587pt too high) detected at line 531
- []
-
-[28
-
- <./figure/test_ps.png (PNG copy)>]
-<./figure/test_per_3.png, id=270, 676.77844pt x 414.04688pt>
-File: ./figure/test_per_3.png Graphic file (type png)
-
-<use ./figure/test_per_3.png>
-Package pdftex.def Info: ./figure/test_per_3.png used on input line 542.
-(pdftex.def)             Requested size: 243.64005pt x 149.05675pt.
-
-Overfull \hbox (0.4pt too wide) in paragraph at lines 542--542
-[][]  
- []
-
-
-Overfull \vbox (23.32pt too high) detected at line 542
- []
-
-[29
-
- <./figure/test_per_3.png (PNG copy)>]
-<./figure/test_per_compare.png, id=277, 696.35156pt x 474.27188pt>
-File: ./figure/test_per_compare.png Graphic file (type png)
-
-<use ./figure/test_per_compare.png>
-Package pdftex.def Info: ./figure/test_per_compare.png used on input line 551.
-(pdftex.def)             Requested size: 278.53569pt x 189.70538pt.
-
-Overfull \hbox (0.4pt too wide) in paragraph at lines 551--551
-[][]  
- []
-
-
-Overfull \vbox (17.16333pt too high) detected at line 551
- []
-
-[30
-
- <./figure/test_per_compare.png (PNG copy)>] [31
-
-]
-Overfull \hbox (0.4pt too wide) in paragraph at lines 580--580
-[][]  
- []
-
-[32
-
-] [33
-
-]
-LaTeX Font Info:    Try loading font information for U+dsrom on input line 600.
-
- (/usr/share/texlive/texmf-dist/tex/latex/doublestroke/Udsrom.fd
-File: Udsrom.fd 1995/08/01 v0.1 Double stroke roman font definitions
-)
-Overfull \hbox (0.4pt too wide) in paragraph at lines 600--600
-[][]  
- []
-
-[34
-
-]
-Overfull \hbox (0.4pt too wide) in paragraph at lines 619--619
-[][]  
- []
-
-[35
-
-] (./demo.bbl
-
-LaTeX Font Warning: Font shape `OT1/cmss/bx/it' undefined
-(Font)              using `OT1/cmss/bx/n' instead on input line 30.
-
-)
-Overfull \hbox (0.4pt too wide) in paragraph at lines 624--624
-[][]  
- []
-
-[36
-
- </usr/share/texmf/tex/latex/beamer/base/art/beamericonarticle.pdf>]
-Overfull \hbox (0.4pt too wide) in paragraph at lines 624--624
-[][]  
- []
-
-[37
-
-
-] [38
+] [7
 
 ]
 \tf@nav=\write6
@@ -1639,53 +1248,36 @@ Overfull \hbox (0.4pt too wide) in paragraph at lines 624--624
 \tf@snm=\write8
 \openout8 = `demo.snm'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 629.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 629.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 89.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 89.
  (./demo.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 629.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 629.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 89.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 89.
 Package rerunfilecheck Info: File `demo.out' has not changed.
-(rerunfilecheck)             Checksum: DFCBEB985F877DFE3845722E1BE51664;475.
+(rerunfilecheck)             Checksum: EBA8AB41F9AD9EF42F441ADD413A4AF3;118.
 
 
 LaTeX Font Warning: Size substitutions with differences
 (Font)              up to 1.0pt have occurred.
 
-
-LaTeX Font Warning: Some font shapes were not available, defaults substituted.
-
-
-LaTeX Warning: There were multiply-defined labels.
-
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 629.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 89.
  ) 
 Here is how much of TeX's memory you used:
- 27853 strings out of 493304
- 622551 string characters out of 6139871
- 790894 words of memory out of 5000000
- 30534 multiletter control sequences out of 15000+600000
- 18182 words of font info for 71 fonts, out of 8000000 for 9000
+ 27361 strings out of 493304
+ 613642 string characters out of 6139871
+ 778894 words of memory out of 5000000
+ 30175 multiletter control sequences out of 15000+600000
+ 9104 words of font info for 34 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
- 61i,18n,92p,1750b,851s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></us
-r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/shar
-e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texli
-ve/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texm
-f-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb></usr/share/texlive/texmf-dist
-/fonts/type1/public/amsfonts/cm/cmss8.pfb></usr/share/texlive/texmf-dist/fonts/
-type1/public/amsfonts/cm/cmss9.pfb></usr/share/texlive/texmf-dist/fonts/type1/p
-ublic/amsfonts/cm/cmssbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/publi
-c/amsfonts/cm/cmssi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/ams
-fonts/cm/cmssi12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts
-/cm/cmssi8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cm
-ssi9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.p
-fb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></us
-r/share/texlive/texmf-dist/fonts/type1/public/doublestroke/dsrom10.pfb></usr/sh
-are/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on demo.pdf (38 pages, 570241 bytes).
+ 61i,13n,92p,1750b,709s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb></us
+r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb></usr/share
+/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmss9.pfb></usr/share/texliv
+e/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb>
+Output written on demo.pdf (7 pages, 68078 bytes).
 PDF statistics:
- 413 PDF objects out of 1000 (max. 8388607)
- 327 compressed objects within 4 object streams
- 106 named destinations out of 1000 (max. 500000)
- 177 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 85 PDF objects out of 1000 (max. 8388607)
+ 64 compressed objects within 1 object stream
+ 14 named destinations out of 1000 (max. 500000)
+ 64 words of extra memory for PDF output out of 10000 (max. 10000000)
 

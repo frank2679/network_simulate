@@ -1,0 +1,89 @@
+\documentclass[10pt]{beamer}
+
+\usetheme[progressbar=frametitle]{metropolis}
+
+\usepackage{booktabs}
+\usepackage[scale=2]{ccicons}
+
+\usepackage{pgfplots}
+\usepgfplotslibrary{dateplot}
+
+\usepackage{xspace}
+\newcommand{\themename}{\textbf{\textsc{Rendezvous}}\xspace}
+
+% my configuration 
+\usepackage{ragged2e} % for alignment of paragraph
+% my configuration
+\usepackage[font=small,skip=0pt]{caption} % spacing between figure and image
+% my configuration for indicator  (math)
+\usepackage{dsfont}
+% my configuration: reduce spacing between text and equation
+\expandafter\def\expandafter\normalsize\expandafter{%
+    \normalsize
+    \setlength\abovedisplayskip{0pt}
+    \setlength\belowdisplayskip{0pt}
+    \setlength\abovedisplayshortskip{0pt}
+    \setlength\belowdisplayshortskip{0pt}
+}
+\newcommand*{\perm}[2]{{}^{#1}\!P_{#2}}%
+\newcommand*{\comb}[2]{{}^{#1}C_{#2}}%
+
+\title{Traffic Schedule on 802.11ax MAC}
+%\subtitle{}
+\date{\today}
+\author{Yang Hang \\ Advisor: K.C. Chen}
+\institute{Gratitude Institute of Communication Engineering }
+\titlegraphic{\hfill\includegraphics[height=1.5cm]{logo}}
+
+\begin{document}
+
+\maketitle
+% frame
+\begin{frame}{Table of contents}
+	\setbeamertemplate{section in toc}[sections numbered]
+    \setbeamertemplate{subsection in toc}[subsections numbered]
+    % my configuration
+\setcounter{tocdepth}{5}
+\setcounter{secnumdepth}{5} 
+    \tableofcontents%[hideallsubsections]
+\end{frame}
+
+\section{Problem of WiFi before 802.11ax}
+% frame
+\begin{frame}{Problem of WiFi before 802.11ax}
+\alert{Background}
+BSS is a WLAN with star topology and AP as the center. 
+The \textbf{star topology} means AP works as a \textbf{router} who relay the UL traffic to the backbone and the DL traffic to the STAs. 
+AP should transmit at least half of the total traffic, we called it DL traffic. 
+
+\alert{Problem} 
+Before 802.11ax, AP is seen as a STA who need to contend with all the other STAs. It is very unfair for DL traffic and for AP, especially in dense scenario. 
+
+\alert{New in 802.11ax}
+The difference in 802.11ax makes it possible to solve this problem. 
+The big difference is trigger-based UL, which means AP will schedule both the UL and DL traffic. 
+Later is some idea about the scheduler.  
+\end{frame}
+
+\section{Idea of Scheduler}
+% frame
+\begin{frame}{Idea of Scheduler}
+See the UL/DL as two queues. AP schedules the UL transmission by send a TF first. 
+Following is the options which can be used as scheduler. 
+\begin{enumerate}
+\item (Weighted) Round Robin
+\item (Weighted) Fair Queueing\\
+ Generalized Processor Sharing Model (GPS)
+\end{enumerate}
+Resource Request procedure is needed for AP to maintain the UL queue. 
+\end{frame}
+
+%\begin{frame}[allowframebreaks]{References}
+%    \bibliography{demo}
+%    \bibliographystyle{abbrv}
+%\end{frame}
+
+% frame    
+\plain{Thanks}    
+    
+\end{document}
