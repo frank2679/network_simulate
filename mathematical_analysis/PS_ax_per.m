@@ -16,7 +16,7 @@ Pow_doze = 150;
 %la = 0.0005;% us arrival rate
 
 %% expected value
-Pt = 1-exp(-la*T);
+
 nc = ceil((1-exp(-la*T))*n); % # of contending STAs
 Psc = ((Cw-1)/Cw)^(nc-1); % prob. of suc contending
 %% compute Pss &Ns
@@ -56,7 +56,8 @@ end
 %% Others
 R = nch/Ns;
 Ps = Psc*Pss;
-UL = la*T/Ps;
+Pt = (1-exp(-la*T))/(1-(1-Ps)*exp(-la*T));
+UL = la*T*(2-Ps);
 delta_TX = 1/T * Pt * (Tb*(1-Ps) + Ps*(UL/R*Tp + Tb));
 delta_RX = 1/T * Pt * (2*Tb*(1-Ps) + Ps*Tb*(UL + 2));
 delta_idle = 1 - delta_TX - delta_RX;
