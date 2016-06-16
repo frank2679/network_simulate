@@ -57,33 +57,111 @@ The \textbf{star topology} means AP works as a \textbf{router} who relay the UL 
 AP should transmit at least half of the total traffic, we called it DL traffic. 
 
 \alert{Problem} 
-Before 802.11ax, AP is seen as a STA who need to contend with all the other STAs. It is very unfair for DL traffic and for AP, especially in dense scenario. 
+Before 802.11ax, AP is seen as a STA who needs to contend with all the other STAs. It is very unfair for DL traffic and for AP, especially in dense scenario. 
 
 \alert{New in 802.11ax}
 The difference in 802.11ax makes it possible to solve this problem. 
-The big difference is trigger-based UL, which means AP will schedule both the UL and DL traffic. 
+The big difference is \textbf{trigger-based} UL, so AP will schedule both the UL and DL traffic. 
 Later is some idea about the scheduler.  
 \end{frame}
 
-\section{Idea of Scheduler}
 % frame
-\begin{frame}{Idea of Scheduler}
-See the UL/DL as two queues. AP schedules the UL transmission by send a TF first. 
-Following is the options which can be used as scheduler. 
-\begin{enumerate}
-\item (Weighted) Round Robin
-\item (Weighted) Fair Queueing\\
- Generalized Processor Sharing Model (GPS)
-\end{enumerate}
-Resource Request procedure is needed for AP to maintain the UL queue. 
+\begin{frame}{Target}
+We focus on dense scenario first, meaning large amount of STAs with heavy traffic loading. 
+We want the system should work like:
+\begin{itemize}
+	\item The system doesn't collapse, i.e., channel is not full of collision. (channel utilization approaching 1)
+ 	\item UL/DL occupying channel with some reasonable partition.
+	\item STAs are fair to share the full loaded channel. 
+	\item High priority flows still get some performance guarantee (delay and throughput). 
+	\item STAs could save more energy.
+\end{itemize} 
 \end{frame}
 
+\section{Queueing and Scheduling}
+% frame
+\begin{frame}{Idea of Scheduler}
+The problem will be a flow scheduling. See AP as a router, then UL/DL as two queues. 
+Following is the options which may be used as scheduler. 
+\begin{enumerate}
+\item 
+	Priority Queueing
+\item Round Robin
+\item Fair Queueing\\
+\begin{itemize}
+	\item
+	Bit-by-Bit Round Robin (BBRR)
+	\item
+	Generalized Processor Sharing Model (GPS)
+\end{itemize}
+\item 
+	Quantum Algorithm (deficit round robin (DRR))
+\item
+	Token Bucket Filters
+\end{enumerate}
+\alert{802.11ax Consideration} Resource request procedure is needed for AP to maintain the UL queue. 
+\end{frame}
+
+
+% frame
+\begin{frame}{Fair Queueing}
+As Internet evolved, we may not want routers handling all traffic with FIFO. 
+We may want to share bandwidth among multiple users.
+Fundamental mechanism for this purpose is through \textbf{queueing}.
+We know that \textbf{Round Robin} is a fair queueing when packets have equal size.
+\metroset{block=fill}
+\begin{block}{Assumption I}
+Packet size is fixed.
+\end{block}
+This assumption is critical in queueing. However, it is \textbf{not} a reasonable assumption in many situations.
+
+For variant packet sizes, we need a bit more work by generalizing from the \textbf{round robin} idea. 
+We will see an example, but before that another assumption is needed.
+\begin{block}{Assumption II}
+Each subqueue is active (non-empty) all the time.
+\end{block} 
+\end{frame}
+
+% frame
+\begin{frame}{Fair Queueing}
+\metroset{block=fill}
+\begin{exampleblock}{example}
+If \textbf{Assumption II} holds, give 3 subqueues $P,Q,R$. 
+The arrival packets are as follow figure.
+How are the packets scheduled to achieve fair queueing?
+\end{exampleblock}
+\begin{figure}
+\includegraphics[scale=0.5]{./figure/visual_finishing_time.png}
+\end{figure}
+
+Actually, as in round robin, the packets are transmitted in order of increasing cumulative data sent by each subqueue, denoted with $C_p$. 
+In the figure above, the order is as $Q1,P1,R1,Q2,Q3,R2,Q4\ldots$
+
+A completely equivalent strategy is to send each packet in nondecreasing order of \textbf{virtual finishing time}, calculated under assumption II.
+\end{frame}
+
+% frame
+\begin{frame}{bit-by-bit Round Robin (BBRR)}
+
+\end{frame}
+
+% frame
+\begin{frame}{Generalized Processor Sharing (GPS)}
+
+\end{frame}
+
+% frame
+\begin{frame}{Quantum Algorithm (Deficit Round Robin (DRR))}
+
+\end{frame}
+
+\section{My Design for 802.11ax}
 %\begin{frame}[allowframebreaks]{References}
 %    \bibliography{demo}
 %    \bibliographystyle{abbrv}
 %\end{frame}
 
-% frame    
-\plain{Thanks}    
-    
+% frame
+\plain{Thanks}
+
 \end{document}
