@@ -20,13 +20,13 @@
 % my configuration: reduce spacing between text and equation
 \expandafter\def\expandafter\normalsize\expandafter{%
     \normalsize
-    \setlength\abovedisplayskip{0pt}
-    \setlength\belowdisplayskip{0pt}
-    \setlength\abovedisplayshortskip{0pt}
-    \setlength\belowdisplayshortskip{0pt}
+    \setlength\abovedisplayskip{8pt}
+    \setlength\belowdisplayskip{8pt}
+    \setlength\abovedisplayshortskip{8pt}
+    \setlength\belowdisplayshortskip{8pt}
 }
-\newcommand*{\perm}[2]{{}^{#1}\!P_{#2}}%
-\newcommand*{\comb}[2]{{}^{#1}C_{#2}}%
+\newcommand*{\perm}[2]{{}^{#1}\!P_{#2}}% pernutation
+\newcommand*{\comb}[2]{{}^{#1}C_{#2}}% combination
 
 \title{Traffic Schedule on 802.11ax MAC}
 %\subtitle{}
@@ -62,20 +62,20 @@ Before 802.11ax, AP is seen as a STA who needs to contend with all the other STA
 \alert{New in 802.11ax}
 The difference in 802.11ax makes it possible to solve this problem. 
 The big difference is \textbf{trigger-based} UL, so AP will schedule both the UL and DL traffic. 
-Later is some idea about the scheduler.  
 \end{frame}
 
 % frame
 \begin{frame}{Target}
 We focus on dense scenario first, meaning large amount of STAs with heavy traffic loading. 
 We want the system should work like:
-\begin{itemize}
+\begin{enumerate}
 	\item The system doesn't collapse, i.e., channel is not full of collision. (channel utilization approaching 1)
  	\item UL/DL occupying channel with some reasonable partition.
-	\item STAs are fair to share the full loaded channel. 
 	\item High priority flows still get some performance guarantee (delay and throughput). 
-	\item STAs could save more energy.
-\end{itemize} 
+	\item STAs should be energy-efficient.
+	\item It's better to give user performance guarantee.
+\end{enumerate} 
+Since we always measure a network from the systematic aspect, it is really important to measure network from users' view.
 \end{frame}
 
 \section{Queueing and Scheduling}
@@ -102,9 +102,8 @@ Following is the options which may be used as scheduler.
 \alert{802.11ax Consideration} Resource request procedure is needed for AP to maintain the UL queue. 
 \end{frame}
 
-
 % frame
-\begin{frame}{Fair Queueing}
+\begin{frame}{Fair Queueing--Two Assumptions}
 As Internet evolved, we may not want routers handling all traffic with FIFO. 
 We may want to share bandwidth among multiple users.
 Fundamental mechanism for this purpose is through \textbf{queueing}.
@@ -123,12 +122,13 @@ Each subqueue is active (non-empty) all the time.
 \end{frame}
 
 % frame
-\begin{frame}{Fair Queueing}
+\begin{frame}{Fair Queueing--Virtual Finishing Time}
 \metroset{block=fill}
-\begin{exampleblock}{example}
-If \textbf{Assumption II} holds, give 3 subqueues $P,Q,R$. 
+\begin{exampleblock}{Example I}
+Give 3 subqueues $P,Q,R$ and only one packet is transmitted at a time.
 The arrival packets are as follow figure.
-How are the packets scheduled to achieve fair queueing?
+If \textbf{Assumption II} holds, 
+how are the packets scheduled to achieve fair queueing?
 \end{exampleblock}
 \begin{figure}
 \includegraphics[scale=0.5]{./figure/visual_finishing_time.png}
@@ -141,21 +141,222 @@ A completely equivalent strategy is to send each packet in nondecreasing order o
 \end{frame}
 
 % frame
-\begin{frame}{bit-by-bit Round Robin (BBRR)}
+\begin{frame}{Fair Queueing--Virtual Finishing Time}
+The assumption II is also unreasonable for real world. 
+If some subqueue is idle (empty) for some time, the \textbf{virtual finishing time} doesn't work well.
 
+\metroset{block=fill}
+\begin{exampleblock}{Example II}
+All packets are the same size with 1 unit; three subqueues $P,Q,R$. Assume $P$ is idle until $T = 20$, $Q,R$ are busy all the time. At $T=20$, the head packet in $Q, R$ are $Q_{11}, R_{11}$, with virtual finishing times of $T=11$.
+For the packet $P_1$, virtual finishing time is $21$. 
+\end{exampleblock}
+In Example II, the packet $P_1$ should be the transmitted with $Q_{11}, R_{11}$ under the same round. 
+However, the virtual finishing order makes $P_1$ much later. 
+
+The trick, as it turns out, is to measure elapsed time not in terms of packet-transmission times (i.e. wallclock time), but rather in terms of rounds of round robin transmission.
+
+The solutions are bit-by-bit Round Robin (BBRR) and generalized processor sharing (GPS).
 \end{frame}
 
 % frame
-\begin{frame}{Generalized Processor Sharing (GPS)}
+\begin{frame}{bit-by-bit Round Robin (BBRR)}
+BBRR is a fair queueing \textbf{without} forwards two assumptions.
 
+"\textbf{Round counter}" $R(t)$ is defined, where $t$ is the time measured in units of transmission time for one bit, $R(t)$ increments by 1 as $t$ increments by $k$ ($k$ active input subqueues); that is, $R(t)$ grows at rate $1/k$.
+
+If a packet of size $S$ starts transmission via BBRR at $R_0 = R(t_0)$, then it will finish when $R(t) = R_0 + S$.
+
+To calculate the virtual BBRR finishing time of a packet $P$, $F_P$, we first record $R_P = R(t_P)$ at the moment of arrival.
+\begin{align}
+Start &= max(R_P, F_{prev}) \nonumber\\
+F_P 	  &= Start + S \qquad (S= \text{ packet size, measued in bits})
+\end{align}
+\end{frame}
+
+% frame
+\begin{frame}{BBRR example}
+%\begin{columns}[T,onlytextwidth]
+% column
+%\column{0.6\textwidth}
+\begin{table}
+\caption{Given traffic of three subqueues as follows}
+\begin{tabular}{llll}
+\toprule
+Packet & Queue & Size & Arrival time\\
+\midrule
+$P_1$  & $P$   & 1000 & 0 \\
+$P_2$  & $P$   & 1000 & 0 \\
+$Q_1$  & $Q$   & 600  & 800 \\
+$Q_2$  & $Q$   & 400  & 800 \\
+$Q_3$  & $Q$   & 400 & 800 \\
+$R_1$  & $R$   & 200 & 1200 \\
+$R_2$  & $R$   & 200 & 2100 \\
+\bottomrule
+\end{tabular}
+\end{table}
+% column
+%\column{0.4\textwidth}
+\begin{figure}
+\includegraphics[scale=0.3]{./figure/BBRR_eg.png}
+\end{figure}
+\end{frame}
+
+% frame
+\begin{frame}{BBRR example}
+For subqueue $P$: \\
+$F_P(P_1) = 1000$, 
+$F_P(P_2) = 2000$ \\
+For subqueue $Q$: \\
+$F_P(Q_1) = R(t) + S = 1400$, 
+$F_P(Q_2) = 1400+400 = 2200$, 
+$F_P(Q_3) = 2200+400 = 2600$\\
+For subqueue $R$: \\
+$F_P(R_1) = R(1200)+200 = 1200$,
+$F_P(R_2) = 1350+200 = 1550$ \\
+$R(t)$ is used to measure arrival time with scale $1/k$ ($k$ active subqueues). $F_P$ will not change if other subqueues empty or become active.
+% figure
+\begin{figure}
+\includegraphics[scale=0.28]{./figure/BBRR_cpu.png}
+\end{figure}
+\end{frame}
+
+% frame 
+\begin{frame}{Weighted Fair Queueing}
+Though BBRR is a good model for fair queueing, it needs a bit more to design for \textbf{weighted fair queueing} (WFQ).
+
+If we want to implement a WFQ with BBRR, we may need to build multiple subqueue for one flow. 
+
+Another generalized queueing called \textbf{Generalized Processor Sharing} (GPS) is straightforwardly to WFQ. 
+\end{frame}
+
+% frame
+\begin{frame}{Generalized Processor Sharing (GPS) model}
+For the GPS model, assume $N$ input subqueues, and the $i$th subqueue, $0<i<N$, is to receive fraction $\alpha_i>0$, where $\alpha_0+\alpha_1+\ldots+\alpha_{N-1}=1$.
+If at some time a set $A$ of input subqueues is active, say $A=\lbrace 0,2,4\rbrace$, then subqueue 0 will receive faction $\frac{\alpha_0}{\alpha_0+\alpha_2+\alpha_4}$, and subqueue 2,4 similarly.
+Thus when given different $\alpha_i$, GPS will be a WFQ.
+
+Instead of BBRR round counter $R(t)$, another \textbf{virtual clock} $VC(t)$ is used that runs at an increased rate $1/\alpha\geq 1$ where $\alpha$ is the sum of $\alpha_i$ for the active subqueues. 
+Similarly virtual finishing time $F_P$ is given:
+\begin{align}
+F_P = max(VC(now), F_{prev}) + \frac{S}{r\alpha_i},\ (r \text{ is total output rate of outer})
+\end{align}
+The same with BBRR, a packet's GPS finishing time does not depend on any later arrivals or idle periods on other subqueues. 
+\end{frame}
+
+% frame
+\begin{frame}{GPS model}
+GPS finishing time: the theoretical finishing time based on \textbf{parallel multi-packet} transmissions under the GPS model. 
+
+Then GPS allows packet to be transmitted immediately when it comes to an idle subqueue. See next example. 
+\begin{table}
+\caption{Flow Specification $r=1$, each subqueue is allocated an equal share of bandwidth}
+\begin{tabular}{lll}
+\toprule
+$P$ & $Q$ & $R$ \\
+\midrule
+$P_1: T =0, L=1$ & $Q_1: T=0, L=2$& $R_1:T=10, L=5$\\
+$P_2:T=2, L=10$ & $Q_2:T=4, L=6$ & \\
+\bottomrule
+\end{tabular}
+\end{table}
+\end{frame}
+
+% frame
+\begin{frame}{GPS model--example}
+In this case, $VC(t)$ increments with rate $N/k$, $N=3, k:$ active subqueues number. \\
+$VC(2) = 2*3/2=3$, 
+$VC(4) = 3+2*3/2 = 6$,
+$VC(10) = 6+6*3/2 = 15$,
+$VC(19) = 15+9 = 6$,
+$VC(23) = 24+4*3/2 = 30$ \\
+For subqueue $P$:
+$F_P(P_1) = 3$, 
+$F_P(P_2) = 3+10/(1/3) = 33$\\
+For subqueue $Q$:
+$F_P(Q_1) = 6$, 
+$F_P(Q_2) = 6+6/(1/3) = 24$\\
+For subqueue $R$:
+$F_P(R_1) = VC(10) + 5/(1/3) = 30$\\
+\begin{figure}
+\includegraphics[scale=0.23]{./figure/GPS_cpu.png}
+\end{figure}
+\end{frame}
+
+% frame
+\begin{frame}{GPS vs BBRR}
+BBRR is a special case of GPS model with $\alpha_i = 1/N$, i.e. equal sharing the bandwidth.
+And from above, the scale of $VC(t)$ is $N$ times of $R(t)$.
+
+The GPS has an advantage of generalizing straightforwardly to weighted fair queuing.
+
+However, the implementation of above methods cost $O(logn)$. 
+What's more, when number of flow is large amount, it is not easy to maintain so many subqueues.
+Actually, there is another way of implementation, called Stochastic Fair Queueing, which is an approximation to fair queueing. It maintains fixed number of subqueues. Here, I won't introduce. \\
+Next, I will introduce another method approaching WFQ which costs only $O(1)$. 
 \end{frame}
 
 % frame
 \begin{frame}{Quantum Algorithm (Deficit Round Robin (DRR))}
+DRR gives each subqueue a \textbf{quantum}.
+DRR service the subqueues in round robin fashion but each time we take as many packets as we can such that the total size does not exceed the quantum.
 
+Fairness can be improved significantly by keeping track of the difference between the quantum and what was actually sent; this is called \textbf{deficit}.
+\metroset{block=fill}
+\begin{exampleblock}{Example IV}
+The quantum is 1000 bytes and a steady stream of 600 byte packets arrives on one subqueue, they are sent as follows
+\end{exampleblock}
+\begin{tabular}{llll}
+\toprule
+round & quantum+prev deficit & packets sent & new deficit\\
+\midrule
+1 & 1000 & 1 & 400 \\
+2 & 1400 & 2,3 & 200 \\
+3 & 1200 & 4,5 & 0 \\
+\bottomrule
+\end{tabular}
+
+If a subqueue is ever empty, its deficit should immediately \textbf{expire}. 
+\end{frame}
+
+% frame
+\begin{frame}{Token Bucket Filter}
+Token bucket filters provide an alternative to fair queueing for providing a traffic allocation to each of several groups. 
+The main \textbf{difference} between fair queueing and token bucket is that if one subqueue is idle, fair queueing distributes that sender's bandwidth among the other senders. 
+Token bucket does not: the bandwidth a subqueue is allocated is a \textbf{bandwidth cap}.
+
+This forced bandwidth cap is not suitable for wifi. 
+That is because the spectrum resource is public for use, we needn't set a bound for some traffic to access the free resource. 
 \end{frame}
 
 \section{My Design for 802.11ax}
+% frame
+\begin{frame}{Single layer WFQ}
+I first design a single-layer WFQ satisfying DL/UL scheduling.
+The WFQ is implemented with deficit round robin (DRR) algorithm. 
+The reason is that, UL/DL is separated in time domain.
+Round Robin is also a robust algorithm. 
+Then the two key parameter of the algorithm is $D_{dl}, D_{ul}$, representing quantum for DL/UL. 
+\begin{figure}
+\includegraphics[scale=0.3]{./figure/single_layer.png}
+\end{figure}
+\end{frame}
+
+% frame
+\begin{frame}{Hierarchical WFQ}
+Additional function is to support priority traffic, we design a hierarchical queueing as following figure. 
+Since GPS model is based on parallel multi-packet transmission, it is like MU PHY. 
+So implement sub-WFQ with GPS model.
+
+With the design above, we can give priority traffic some performance guarantee, but not \textbf{user} performance guarantee. 
+\begin{figure}
+\includegraphics[scale=0.2]{./figure/hierarchical_queueing.png}
+\end{figure}
+\end{frame}
+
+% frame
+\begin{frame}{In progress}
+Study the analysis of the model. 
+\end{frame}
 %\begin{frame}[allowframebreaks]{References}
 %    \bibliography{demo}
 %    \bibliographystyle{abbrv}
@@ -165,3 +366,4 @@ A completely equivalent strategy is to send each packet in nondecreasing order o
 \plain{Thanks}
 
 \end{document}
+
