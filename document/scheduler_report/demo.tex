@@ -169,7 +169,8 @@ If a packet of size $S$ starts transmission via BBRR at $R_0 = R(t_0)$, then it 
 To calculate the virtual BBRR finishing time of a packet $P$, $F_P$, we first record $R_P = R(t_P)$ at the moment of arrival.
 \begin{align}
 Start &= max(R_P, F_{prev}) \nonumber\\
-F_P 	  &= Start + S \qquad (S= \text{ packet size, measued in bits})
+F_P 	  &= Start + \frac{S}{r} \\
+(S: &\text{ packet size, measued in bits}; r: \text{ total output rate}) \nonumber
 \end{align}
 \end{frame}
 
@@ -213,7 +214,7 @@ $F_P(Q_3) = 2200+400 = 2600$\\
 For subqueue $R$: \\
 $F_P(R_1) = R(1200)+200 = 1200$,
 $F_P(R_2) = 1350+200 = 1550$ \\
-$R(t)$ is used to measure arrival time with scale $1/k$ ($k$ active subqueues). $F_P$ will not change if other subqueues empty or become active.
+$R(t)$ is used to measure arrival time with scale $1/k$ ($k$ active subqueues). %$F_P$ will not change if other subqueues empty or become active.
 % figure
 \begin{figure}
 \includegraphics[scale=0.28]{./figure/BBRR_cpu.png}
@@ -238,7 +239,7 @@ Thus when given different $\alpha_i$, GPS will be a WFQ.
 Instead of BBRR round counter $R(t)$, another \textbf{virtual clock} $VC(t)$ is used that runs at an increased rate $1/\alpha\geq 1$ where $\alpha$ is the sum of $\alpha_i$ for the active subqueues. 
 Similarly virtual finishing time $F_P$ is given:
 \begin{align}
-F_P = max(VC(now), F_{prev}) + \frac{S}{r\alpha_i},\ (r \text{ is total output rate of outer})
+F_P = max(VC(now), F_{prev}) + \frac{S}{r\alpha_i},\ (r \text{ is total output rate})
 \end{align}
 The same with BBRR, a packet's GPS finishing time does not depend on any later arrivals or idle periods on other subqueues. 
 \end{frame}
@@ -355,7 +356,15 @@ With the design above, we can give priority traffic some performance guarantee, 
 
 % frame
 \begin{frame}{In progress}
+\begin{enumerate}
+\item
 Study the analysis of the model. 
+\item
+Think about the Resource Request procedure to maintain the 
+UL subqueue. 
+\item
+Think about the power save design. 
+\end{enumerate}
 \end{frame}
 %\begin{frame}[allowframebreaks]{References}
 %    \bibliography{demo}
